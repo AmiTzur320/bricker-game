@@ -14,7 +14,6 @@ import gameobjects.Ball;
 import gameobjects.Brick;
 import gameobjects.Lives;
 import gameobjects.Paddle;
-// heyyy whats up?
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
@@ -58,7 +57,7 @@ public class BrickerGameManager extends GameManager {
     public static final String ASSETS_BRICK_PNG = "assets/brick.png";
     public static final String BOUNCING_BALL = "Bouncing Ball";
     //    private static final int DEFAULT_BRICK_ROWS=1;
-//    private static final int DEFAULT_BRICK_COLUMNS=1;
+    //    private static final int DEFAULT_BRICK_COLUMNS=1;
     private final int brickColumns;
     private final int brickRows;
     private Counter brickCounter;
@@ -115,6 +114,8 @@ public class BrickerGameManager extends GameManager {
             //checking if we lost because the ball fell, and we have no lives left
             if (currentLives > 0) {
                 ball.setCenter(windowDimensions.mult(HALF_FACTOR));
+                setRandomBallVelocity(ball);
+
             }
             else {
                 prompt = YOU_LOSE;
@@ -137,7 +138,7 @@ public class BrickerGameManager extends GameManager {
 
     private void createBall(ImageReader imageReader, SoundReader soundReader, WindowController windowController){
         //creating ball
-        Renderable ballImage= imageReader.readImage(ASSETS_BALL_PNG,true);
+        Renderable ballImage = imageReader.readImage(ASSETS_BALL_PNG,true);
         // isTopLeft above defines if we want the left top pixel to be in same color of window
         Sound collisionSound=soundReader.readSound(ASSETS_BLOP_WAV);
         GameObject ball = new Ball(Vector2.ZERO, new Vector2(BALL_SIZE,BALL_SIZE),ballImage,collisionSound);
@@ -146,17 +147,7 @@ public class BrickerGameManager extends GameManager {
         ball.setCenter(windowDimensions.mult(HALF_FACTOR));
         this.gameObjects().addGameObject(ball,Layer.DEFAULT);
         this.ball = (Ball) ball;
-
-        double ballVelX=BALL_SPEED;
-        double ballVelY=BALL_SPEED;
-        Random rand = new Random();
-        if (rand.nextBoolean()){
-            ballVelX *=-1;
-        }
-        if(rand.nextBoolean()){
-            ballVelY *=-1;
-        }
-        ball.setVelocity((new Vector2((float) ballVelX, (float) ballVelY)));
+        setRandomBallVelocity(this.ball);
 
     }
 
@@ -217,12 +208,12 @@ public class BrickerGameManager extends GameManager {
         this.lives = new Lives(this.gameObjects(), LIVES_POSITION, MAX_LIVES, imageReader);
     }
 
-    public void removeBrick(GameObject brick) {
-        if (this.gameObjects().removeGameObject(brick, Layer.STATIC_OBJECTS)) {
-            brickCounter.decrement();
-        }
-
-    }
+//    public void removeBrick(GameObject brick) {
+//        if (this.gameObjects().removeGameObject(brick, Layer.STATIC_OBJECTS)) {
+//            brickCounter.decrement();
+//        }
+//
+//    }
 
     private static int[] validateArgs(String[] args) {
         int columns = DEFAULT_BRICK_COLUMNS;
@@ -234,6 +225,18 @@ public class BrickerGameManager extends GameManager {
         return new int[]{columns, rows};
     }
 
+    private void setRandomBallVelocity(Ball ball) {
+        double ballVelX=BALL_SPEED;
+        double ballVelY=BALL_SPEED;
+        Random rand = new Random();
+        if (rand.nextBoolean()){
+            ballVelX *=-1;
+        }
+        if(rand.nextBoolean()){
+            ballVelY *=-1;
+        }
+        ball.setVelocity((new Vector2((float) ballVelX, (float) ballVelY)));
+    }
     public static void main(String[] args) {
         int columns = BrickerGameManager.validateArgs(args)[0];
         int rows = BrickerGameManager.validateArgs(args)[1];

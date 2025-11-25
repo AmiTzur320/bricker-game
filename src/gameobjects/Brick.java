@@ -8,9 +8,12 @@ import danogl.util.Vector2;
 
 public class Brick extends GameObject {
     private final CollisionStrategy collisionStrategy;
+    private final Vector2 brickCoordinateInBricksGrid;
 
-    public Brick(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, CollisionStrategy collisionStrategy) {
+    public Brick(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
+                 CollisionStrategy collisionStrategy, Vector2 brickCoordinateInBricksGrid) {
         super(topLeftCorner, dimensions, renderable);
+        this.brickCoordinateInBricksGrid =brickCoordinateInBricksGrid;
         this.collisionStrategy=collisionStrategy;
     }
 
@@ -18,5 +21,9 @@ public class Brick extends GameObject {
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
         collisionStrategy.onCollision(this,other);
+    }
+
+    public Vector2 getBrickCoordinateInBricksGrid() {
+        return brickCoordinateInBricksGrid;
     }
 }

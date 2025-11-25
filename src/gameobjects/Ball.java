@@ -26,7 +26,7 @@ public class Ball extends GameObject {
 //        System.out.println("Ball collison counter: "+this.collisonCounter);
     }
 
-    public int getCollisonCounter() {
-        return collisonCounter;
-    }
+//    public int getCollisonCounter() {
+//        return collisonCounter;
+//    }
 }

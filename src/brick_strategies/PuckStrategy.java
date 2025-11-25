@@ -4,24 +4,64 @@ import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.gui.ImageReader;
+import danogl.gui.Sound;
 import danogl.gui.SoundReader;
+import danogl.gui.rendering.ImageRenderable;
+import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
+import danogl.util.Vector2;
+import gameobjects.Ball;
+import gameobjects.Puck;
+
+import java.util.Random;
 
 public class PuckStrategy extends BasicCollisionStrategy{
     private static final String PUCK_IMAGE= "assets/mockBall.png";
-    private static final float PUCK_SIZE= 0.75f * 30f; //TODO- IT NEED TO BE 3/4 OF THE BALL SIZE
     private static final String PUCK_SOUND= "assets/blop.wav";
-    private final ImageReader imageReader;
-    private final SoundReader soundReader;
+    private static final float PUCK_RATIO_OF_BALL= 0.75f ;
+    private static final float PUCK_SPEED= 200f;
 
-    public PuckStrategy(GameObjectCollection gameObjects, ImageReader imageReader, SoundReader soundReader) {
-        super(gameObjects, Counter brickCounter);
-        this.imageReader = imageReader;
-        this.soundReader = soundReader;
+    private final ImageRenderable puckImage;
+    private final Sound collisionSound;
+    private final float puckSize;
+
+
+    public PuckStrategy(GameObjectCollection gameObjects, ImageReader imageReader, SoundReader soundReader,
+                        Counter brickCounter,Vector2 windowDimensions, float puckSize, Puck[] puckList) {
+        super(gameObjects, brickCounter,windowDimensions);
+        this.puckImage = imageReader.readImage(PUCK_IMAGE, true);
+        this.collisionSound = soundReader.readSound(PUCK_SOUND);
+        this.puckSize = puckSize * PUCK_RATIO_OF_BALL;
     }
-    @Override
+
+
+
+@Override
     public void onCollision(GameObject thisObj, GameObject otherObj) {
         super.onCollision(thisObj, otherObj);
-        //todo add puck
+
+        Vector2 brickCenter = thisObj.getCenter();
+        Vector2 puckDimensions = new Vector2(this.puckSize, this.puckSize);
+        Vector2 topLeftOfPuck = brickCenter.subtract(puckDimensions.mult(0.5f));
+
+        for (int i = 0; i < 2; i++) {
+            Puck puck = addPuck(topLeftOfPuck,puckDimensions);
+        }
+    }
+
+    private Puck addPuck(Vector2 topLeftOfPuck,Vector2 puckDimensions) {
+
+        Puck puck = new Puck(topLeftOfPuck, puckDimensions,this.puckImage,this.collisionSound);
+        puck.setVelocity(randomVelocityUpper());
+        super.gameObjects.addGameObject(puck, Layer.DEFAULT);
+        return puck;
+    }
+
+    private Vector2 randomVelocityUpper(){
+        Random random = new Random();
+        double angle = random.nextDouble() * Math.PI;
+        float velocityX = (float)Math.cos(angle) * PUCK_SPEED;
+        float velocityY = (float)Math.sin(angle) * PUCK_SPEED;
+        return new Vector2(-velocityX, -velocityY); //TODO ADDED MINUS
     }
 }

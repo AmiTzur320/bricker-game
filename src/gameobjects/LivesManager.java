@@ -18,7 +18,7 @@ import java.awt.*;
  * It also provides functionality to gain lives.
  * @author Amit Tzur and Zohar Mattatia
  */
-public class Lives {
+public class LivesManager {
     // the color settings for 3 lives left
     private static final int GREEN_HEART_TEXT_VALUE = 3;
     // the color settings for 2 lives left. 1 life left will be red by default
@@ -60,7 +60,7 @@ public class Lives {
 
 
     /**
-     * Constructor for the Lives class.
+     * Constructor for the LivesManager class.
      * Initializes the lives GUI elements and sets up the initial state.
      * Then, it adds the hearts and text to the provided game object collection.
      *
@@ -69,7 +69,7 @@ public class Lives {
      * @param maxLives      The maximum number of lives the player can have.
      * @param imageReader   The ImageReader instance used to load the heart image.
      */
-    public Lives(GameObjectCollection gameObjects, Vector2 topLeftCorner, int maxLives, ImageReader imageReader) {
+    public LivesManager(GameObjectCollection gameObjects, Vector2 topLeftCorner, int maxLives, ImageReader imageReader) {
         {
             this.gameObjects = gameObjects;
             this.maxLives = maxLives;

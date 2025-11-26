@@ -7,7 +7,7 @@ import danogl.util.Vector2;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import gameobjects.Brick;
-
+import bricker.main.GameConstants;
 import java.util.Random;
 
 public class BricksStrategyFactory {
@@ -18,6 +18,7 @@ public class BricksStrategyFactory {
     private static final int LIVES_STRATEGY_INDEX = 4;
     private static final int DOUBLE_STRATEGY_INDEX = 5;
     private static final int STRATEGY_SAMPLE_SPACE = 10;
+    public static final int SET_DOUBLE_STRATEGY_COUNTER = 1;
 
     private final GameObjectCollection gameObjects;
     private final Counter brickCounter;
@@ -25,49 +26,41 @@ public class BricksStrategyFactory {
     private final SoundReader soundReader;
     private final UserInputListener inputListener;
     private final Vector2 windowDimensions;
-    private final float puckSize; // Needed for PuckStrategy
     private final Brick[][] bricksGrid; //
 
     public BricksStrategyFactory(GameObjectCollection gameObjects,
                                  Counter brickCounter,
                                  ImageReader imageReader, SoundReader soundReader,
                                  UserInputListener inputListener,
-                                 Vector2 windowDimensions, float puckSize, Brick[][] bricksGrid) {
+                                 Brick[][] bricksGrid) {
 
         this.gameObjects = gameObjects;
         this.brickCounter = brickCounter;
         this.imageReader = imageReader;
         this.soundReader = soundReader;
         this.inputListener = inputListener;
-        this.windowDimensions = windowDimensions;
-        this.puckSize = puckSize;
+        this.windowDimensions = GameConstants.WINDOW_DIMENSIONS;
         this.bricksGrid = bricksGrid;
     }
 
-    public CollisionStrategy getStrategy() {
+    public CollisionStrategy getStrategy(final int strategySampleSpace) {
         Random random = new Random();
-        int randomInt = random.nextInt(STRATEGY_SAMPLE_SPACE) + 1;
+        int chosenStrategy = random.nextInt(strategySampleSpace) + 1;
 
-        if (randomInt <= SPECIAL_BRICKS_COUNT) {
-            return buildSpecialStrategy(randomInt);
-        } else {
-            return new BasicCollisionStrategy(gameObjects, brickCounter);
-        }
-    }
-
-    private CollisionStrategy buildSpecialStrategy(int type) {
-        return switch (type) {
+        return switch (chosenStrategy) {
             case PUCKS_STRATEGY_INDEX -> // Puck
-                    new PuckStrategy(gameObjects, imageReader, soundReader, brickCounter, windowDimensions, puckSize);
+                    new PuckStrategy(gameObjects, imageReader, soundReader, brickCounter);
             case EXTRA_PADDLE_STRATEGY_INDEX -> // Extra Paddle
-                    new ExtraPaddleStrategy(gameObjects, brickCounter, imageReader, inputListener, windowDimensions);
+                    new ExtraPaddleStrategy(gameObjects, brickCounter, imageReader, inputListener);
             case EXPLODE_STRATEGY_INDEX -> // Exploding
                     new ExplodingBrickStrategy(gameObjects, brickCounter, bricksGrid, soundReader);
-//            case LIVES_STRATEGY_INDEX -> // Lives
-                    // TODO: Implement Recover Life Strategy
-//                    new BasicCollisionStrategy(gameObjects, brickCounter);
-//            case DOUBLE_STRATEGY_INDEX -> // Double
-//                    null; // TODO: Implement Double Strategy
+
+            // case LIVES_STRATEGY_INDEX -> // Lives
+                // TODO: Implement Recover Life Strategy
+
+            case DOUBLE_STRATEGY_INDEX -> // Double
+                    new DoubleStrategy(gameObjects, brickCounter, imageReader, soundReader,
+                            inputListener, bricksGrid, SET_DOUBLE_STRATEGY_COUNTER);
             default -> new BasicCollisionStrategy(gameObjects, brickCounter);
         };
     }

@@ -7,7 +7,7 @@ import danogl.gui.ImageReader;
 import danogl.gui.rendering.Renderable;
 import danogl.gui.rendering.TextRenderable;
 import danogl.util.Vector2;
-
+import bricker.main.GameConstants;
 
 import java.awt.*;
 
@@ -23,16 +23,6 @@ public class LivesManager {
     private static final int GREEN_HEART_TEXT_VALUE = 3;
     // the color settings for 2 lives left. 1 life left will be red by default
     private static final int YELLOW_HEART_TEXT_VALUE = 2;
-
-    // the heart image properties
-    private static final float HEART_WIDTH = 30;
-    private static final float HEART_HEIGHT = 30;
-
-    // the heart image path
-    private static final String HEART_IMAGE_PATH = "assets/heart.png";
-
-    // initial number of lives - according to the assignment's description
-    private static final int INITIAL_LIVES = 3;
 
     // the gap between hearts in the gui - set to be the same as the brick padding gap
     private static final float HEARTS_GAP = BrickerGameManager.BRICK_PADDING;
@@ -66,14 +56,13 @@ public class LivesManager {
      *
      * @param gameObjects   The collection of game objects to which the lives GUI elements will be added.
      * @param topLeftCorner The top-left corner position where the lives GUI will be displayed.
-     * @param maxLives      The maximum number of lives the player can have.
      * @param imageReader   The ImageReader instance used to load the heart image.
      */
-    public LivesManager(GameObjectCollection gameObjects, Vector2 topLeftCorner, int maxLives, ImageReader imageReader) {
+    public LivesManager(GameObjectCollection gameObjects, Vector2 topLeftCorner, ImageReader imageReader) {
         {
             this.gameObjects = gameObjects;
-            this.maxLives = maxLives;
-            livesLeft = INITIAL_LIVES;
+            this.maxLives = GameConstants.MAX_LIVES;
+            livesLeft = GameConstants.INITIAL_LIVES;
             this.textRenderable = new TextRenderable(INITIAL_LIVES_TEXT);
 
             // setting the initial text gui of remaining lives (so that it's not displayed black)
@@ -82,27 +71,27 @@ public class LivesManager {
             // setting the textual gui of remaining lives properties
             GameObject remainingLivesText = new GameObject(
                     topLeftCorner,
-                    new Vector2(HEART_WIDTH, HEART_HEIGHT),
+                    new Vector2(GameConstants.HEART_WIDTH, GameConstants.HEART_HEIGHT),
                     textRenderable);
 
             gameObjects.addGameObject(remainingLivesText, Layer.UI);
 
-            Renderable heartImage = imageReader.readImage(HEART_IMAGE_PATH,true);
+            Renderable heartImage = imageReader.readImage(GameConstants.HEART_IMAGE_PATH,true);
 
 
             // creating hearts enough for max lives, but adding only the initial lives to the game
             // from here we set the hearts gui of the remaining lives
             for (int i = 0; i < maxLives; i++) {
                 Vector2 heartPos =
-                        topLeftCorner.add(new Vector2((i + 1) * (HEART_WIDTH + HEARTS_GAP), 0));
+                        topLeftCorner.add(new Vector2((i + 1) * (GameConstants.HEART_WIDTH + HEARTS_GAP), 0));
 
                 GameObject heart = new GameObject(
                         heartPos,
-                        new Vector2(HEART_WIDTH, HEART_HEIGHT),
+                        new Vector2(GameConstants.HEART_WIDTH, GameConstants.HEART_HEIGHT),
                         heartImage);
 
                 heartsArray[i] = heart;
-                if (i < INITIAL_LIVES) {
+                if (i < GameConstants.INITIAL_LIVES) {
                     gameObjects.addGameObject(heart, Layer.UI);
                 }
             }

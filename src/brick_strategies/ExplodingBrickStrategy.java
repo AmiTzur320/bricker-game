@@ -23,15 +23,15 @@ public class ExplodingBrickStrategy extends BasicCollisionStrategy {
     }
 
     @Override
-    public void onCollision(GameObject thisObj, GameObject otherObj) {
-        //handling current brick explosion
-        super.onCollision(thisObj, otherObj);
+    public void onCollision(GameObject firstObject, GameObject secondObject) {
+        // handling current brick explosion
+        super.onCollision(firstObject, secondObject);
         explosionSound.play();
 
 
-        if (!(thisObj instanceof Brick)) return; //TODO IM NOT SURE IF THATS OK, BUT FOR SAFTEY
+        if (!(firstObject instanceof Brick)) return; //TODO IM NOT SURE IF THATS OK, BUT FOR SAFTEY
 
-        Vector2 brickCoordinates = ((Brick) thisObj).getBrickCoordinateInBricksGrid();
+        Vector2 brickCoordinates = ((Brick) firstObject).getBrickCoordinateInBricksGrid();
         int row = (int) brickCoordinates.x();
         int col = (int) brickCoordinates.y();
 
@@ -51,7 +51,7 @@ public class ExplodingBrickStrategy extends BasicCollisionStrategy {
             if (isValidCoordinate(newRow, newCol)) {
                 Brick neighborBrick = bricksGrid[newRow][newCol];
                 if (neighborBrick != null) {
-                    neighborBrick.onCollisionEnter(thisObj, null);
+                    neighborBrick.onCollisionEnter(firstObject, null);
                 }
             }
         }

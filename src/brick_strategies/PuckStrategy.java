@@ -11,37 +11,34 @@ import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
 import gameobjects.Puck;
-
+import bricker.main.GameConstants;
 import java.util.Random;
 
 public class PuckStrategy extends BasicCollisionStrategy{
     private static final String PUCK_IMAGE= "assets/mockBall.png";
-    private static final String PUCK_SOUND= "assets/blop.wav";
     private static final float PUCK_RATIO_OF_BALL= 0.75f ;
     private static final float PUCK_SPEED= 200f;
 
     private final Renderable puckImage;
     private final Sound collisionSound;
     private final float puckSize;
-    private final Vector2 windowDimensions;
 
 
     public PuckStrategy(GameObjectCollection gameObjects, ImageReader imageReader, SoundReader soundReader,
-                        Counter brickCounter,Vector2 windowDimensions, float puckSize) {
+                        Counter brickCounter) {
         super(gameObjects, brickCounter);
-        this.windowDimensions=windowDimensions;
         this.puckImage = imageReader.readImage(PUCK_IMAGE, true);
-        this.collisionSound = soundReader.readSound(PUCK_SOUND);
-        this.puckSize = puckSize * PUCK_RATIO_OF_BALL;
+        this.collisionSound = soundReader.readSound(GameConstants.BALL_BLOP_COLLISION_SOUND);
+        this.puckSize = GameConstants.PUCK_SIZE;
     }
 
 
 
 @Override
-    public void onCollision(GameObject thisObj, GameObject otherObj) {
-        super.onCollision(thisObj, otherObj);
+    public void onCollision(GameObject firstObject, GameObject secondObject) {
+        super.onCollision(firstObject, secondObject);
 
-        Vector2 brickCenter = thisObj.getCenter();
+        Vector2 brickCenter = firstObject.getCenter();
         Vector2 puckDimensions = new Vector2(this.puckSize, this.puckSize);
         Vector2 topLeftOfPuck = brickCenter.subtract(puckDimensions.mult(0.5f));
 
@@ -52,8 +49,7 @@ public class PuckStrategy extends BasicCollisionStrategy{
 
     private void addPuck(Vector2 topLeftOfPuck,Vector2 puckDimensions) {
 
-        Puck puck = new Puck(topLeftOfPuck, puckDimensions,this.puckImage,this.collisionSound,
-                windowDimensions,gameObjects);
+        Puck puck = new Puck(topLeftOfPuck,puckImage,collisionSound,gameObjects);
         puck.setVelocity(randomVelocityUpper());
         super.gameObjects.addGameObject(puck, Layer.DEFAULT);
     }

@@ -24,13 +24,12 @@ public class ExtraPaddle extends Paddle {
      * @param dimensions     The dimensions of the paddle.
      * @param renderable     The renderable object for the paddle.
      * @param inputListener  The user input listener.
-     * @param windowWidth    The width of the game window.
      * @param gameObjects    The collection of game objects in the game.
      */
     private ExtraPaddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
-                        UserInputListener inputListener, float windowWidth,
+                        UserInputListener inputListener,
                         GameObjectCollection gameObjects) {
-        super(topLeftCorner, dimensions, renderable, inputListener, windowWidth);
+        super(topLeftCorner, dimensions, renderable, inputListener);
         this.gameObjects = gameObjects;
     }
 
@@ -50,8 +49,8 @@ public class ExtraPaddle extends Paddle {
         Vector2 location = new Vector2(windowDimensions.x() / 2, windowDimensions.y() / 2);
 
         ExtraPaddle extraPaddle = new ExtraPaddle(location, paddleSize, image,
-                inputListener, windowDimensions.x(), gameObjects);
-
+                inputListener, gameObjects);
+        extraPaddle.setTag("EXTRA_PADDLE");
         extraPaddle.setCenter(location);
         gameObjects.addGameObject(extraPaddle, Layer.DEFAULT);
         activeExtraPaddles = 1;

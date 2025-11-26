@@ -1,5 +1,6 @@
 package gameobjects;
 
+import bricker.main.GameConstants;
 import danogl.GameObject;
 import danogl.gui.UserInputListener;
 import danogl.gui.rendering.Renderable;
@@ -10,13 +11,12 @@ public class Paddle extends GameObject {
 
     private static final float MOVEMENT_SPEED = 600;
     private final UserInputListener inputListener;
-    private final float width;
+    private final float windowsWidth;
 
-    public Paddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, UserInputListener inputListener, float width) {
-        // i added float width in the constructor
+    public Paddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, UserInputListener inputListener) {
         super(topLeftCorner, dimensions, renderable);
         this.inputListener = inputListener;
-        this.width=width;
+        this.windowsWidth = GameConstants.WINDOW_WIDTH;
     }
 
     @Override
@@ -31,9 +31,8 @@ public class Paddle extends GameObject {
             movementDir = movementDir.add(Vector2.RIGHT);
         }
         setVelocity(movementDir.mult(MOVEMENT_SPEED));
-        //TODO- add limits to movement of paddle
         boolean didReachLeftEdge=this.getTopLeftCorner().x() <= 0 ;
-        boolean didReachRightEdge = this.getTopLeftCorner().x() >= this.width-this.getDimensions().x();
+        boolean didReachRightEdge = this.getTopLeftCorner().x() >= this.windowsWidth -this.getDimensions().x();
         if (didReachLeftEdge && movementDir.x()<0  || didReachRightEdge && movementDir.x()>0){
             setVelocity(Vector2.ZERO);
         }

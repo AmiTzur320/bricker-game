@@ -30,8 +30,8 @@ public class ExtraPaddleStrategy extends BasicCollisionStrategy  {
     }
 
     @Override
-    public void onCollision(GameObject firstObject, GameObject secondObject) {
-        super.onCollision(firstObject, secondObject);
+    public void onCollision(GameObject brick, GameObject ball) {
+        super.onCollision(brick, ball);
         Renderable paddleImage = imageReader.readImage(GameConstants.PADDLE_IMAGE, true);
 
         ExtraPaddle.createExtraPaddle(

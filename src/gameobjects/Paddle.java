@@ -13,8 +13,8 @@ public class Paddle extends GameObject {
     private final UserInputListener inputListener;
     private final float windowsWidth;
 
-    public Paddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, UserInputListener inputListener) {
-        super(topLeftCorner, dimensions, renderable);
+    public Paddle(Vector2 topLeftCorner, Renderable renderable, UserInputListener inputListener) {
+        super(topLeftCorner, GameConstants.PADDLE_DIMENSIONS, renderable);
         this.inputListener = inputListener;
         this.windowsWidth = GameConstants.WINDOW_WIDTH;
     }
@@ -27,12 +27,16 @@ public class Paddle extends GameObject {
             movementDir = movementDir.add(Vector2.LEFT);
 
         }
+
         if (inputListener.isKeyPressed(KeyEvent.VK_RIGHT)){
             movementDir = movementDir.add(Vector2.RIGHT);
         }
         setVelocity(movementDir.mult(MOVEMENT_SPEED));
-        boolean didReachLeftEdge=this.getTopLeftCorner().x() <= 0 ;
-        boolean didReachRightEdge = this.getTopLeftCorner().x() >= this.windowsWidth -this.getDimensions().x();
+
+        boolean didReachLeftEdge = (this.getTopLeftCorner().x() <= 0);
+        boolean didReachRightEdge =
+                (this.getTopLeftCorner().x() >= this.windowsWidth -this.getDimensions().x());
+
         if (didReachLeftEdge && movementDir.x()<0  || didReachRightEdge && movementDir.x()>0){
             setVelocity(Vector2.ZERO);
         }

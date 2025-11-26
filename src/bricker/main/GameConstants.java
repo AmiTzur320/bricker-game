@@ -6,12 +6,13 @@ public class GameConstants {
     // the heart image properties
     public static final float HEART_WIDTH = 30;
     public static final float HEART_HEIGHT = 30;
-
+    public static final Vector2 HEART_DIMENSIONS = new Vector2(HEART_WIDTH, HEART_HEIGHT);
     // the heart image path
     public static final String HEART_IMAGE_PATH = "assets/heart.png";
 
     // initial number of lives - according to the assignment's description
     public static final int INITIAL_LIVES = 3;
+    public static final String MAIN_PADDLE_TAG = "MAIN_PADDLE";
 
     public static final float WINDOW_WIDTH = 700;
     public static final float WINDOW_HEIGHT = 500;
@@ -36,6 +37,8 @@ public class GameConstants {
     public static final float PADDLE_HEIGHT = 15;
     public static final Vector2 PADDLE_DIMENSIONS = new Vector2(PADDLE_WIDTH, PADDLE_HEIGHT);
     public static final String PADDLE_IMAGE = "assets/paddle.png";
+    public static final String BALL_TAG = "ball";
+
 
     private GameConstants() {}
 

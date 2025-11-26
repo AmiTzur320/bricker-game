@@ -1,5 +1,6 @@
 package gameobjects;
 
+import bricker.main.GameConstants;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
@@ -12,23 +13,18 @@ import danogl.util.Vector2;
 public class FallingHeart extends GameObject {
     private final GameObjectCollection gameObjects;
     private final Vector2 windowDimensions;
-    private final Counter livesCounter; //to add lives if paddle catch
     private final int maxLives; //max lives allowed
-    private final Vector2 sizeOfFallingHeart;
+    private final LivesManager livesManager;
     public FallingHeart(GameObjectCollection gameObjects,
                         Vector2 topLeftCorner,
                         Vector2 dimensions,
-                        Vector2 windowDimensions,
                         Renderable renderable,
-                        Counter livesCounter,
-                        int maxLives
-                        Vector2 sizeOfFallingHeart) {
+                        LivesManager livesManager) {
         super(topLeftCorner, dimensions, renderable);
         this.gameObjects = gameObjects;
-        this.windowDimensions=windowDimensions;
-        this.livesCounter=livesCounter;
-        this.maxLives=maxLives;
-        this.sizeOfFallingHeart=sizeOfFallingHeart;
+        this.windowDimensions=GameConstants.WINDOW_DIMENSIONS;
+        this.maxLives= GameConstants.MAX_LIVES;
+        this.livesManager=livesManager;
         this.setVelocity(Vector2.DOWN.mult(100));
     }
 
@@ -37,7 +33,7 @@ public class FallingHeart extends GameObject {
         // This is the "Reference Comparison".
         // It checks if the object defined as 'other' is strictly the same object in memory
         // as the 'mainPaddle' we saved in the constructor.
-        return object.getTag() .equals("MAIN_PADDLE");
+        return object.getTag().equals(GameConstants.MAIN_PADDLE_TAG);
     }
 
     @Override
@@ -57,9 +53,8 @@ public class FallingHeart extends GameObject {
         // Logic for adding a life goes here or in the strategy
         // Since shouldCollideWith returns false for everything else,
         // we know 'other' MUST be the mainPaddle here.
-        if (livesCounter.value() < maxLives) {
-            livesCounter.increment();
-            gameObjects.removeGameObject(this);
-        }
+        livesManager.gainLife();
+        gameObjects.removeGameObject(this);
+
     }
 }

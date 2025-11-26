@@ -96,8 +96,6 @@ public class LivesManager {
                 }
             }
         }
-
-
     }
 
     /**
@@ -145,8 +143,12 @@ public class LivesManager {
         if (livesLeft >= maxLives) {
             return;
         }
+        GameObject heartToAdd = heartsArray[livesLeft];
+        gameObjects.addGameObject(heartToAdd, Layer.UI);
         livesLeft++;
+        updateLivesText();
     }
+
 
 
     /**
@@ -157,5 +159,4 @@ public class LivesManager {
     public int getLives() {
         return livesLeft;
     }
-
 }

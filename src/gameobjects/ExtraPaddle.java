@@ -1,5 +1,6 @@
 package gameobjects;
 
+import bricker.main.GameConstants;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
@@ -11,6 +12,7 @@ import danogl.util.Vector2;
 public class ExtraPaddle extends Paddle {
 
     private static final int MAX_COLLISIONS = 4;
+    public static final String TAG = "EXTRA_PADDLE";
     private int collisionCounter = 0;
     private final GameObjectCollection gameObjects;
     private static int activeExtraPaddles = 0;
@@ -29,7 +31,7 @@ public class ExtraPaddle extends Paddle {
     private ExtraPaddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
                         UserInputListener inputListener,
                         GameObjectCollection gameObjects) {
-        super(topLeftCorner, dimensions, renderable, inputListener);
+        super(topLeftCorner, renderable, inputListener);
         this.gameObjects = gameObjects;
     }
 
@@ -45,12 +47,12 @@ public class ExtraPaddle extends Paddle {
         }
 
         // centering according to instruction
-        Vector2 paddleSize = new Vector2(100, 15);
+        Vector2 paddleSize = GameConstants.PADDLE_DIMENSIONS;
         Vector2 location = new Vector2(windowDimensions.x() / 2, windowDimensions.y() / 2);
 
         ExtraPaddle extraPaddle = new ExtraPaddle(location, paddleSize, image,
                 inputListener, gameObjects);
-        extraPaddle.setTag("EXTRA_PADDLE");
+        extraPaddle.setTag(TAG);
         extraPaddle.setCenter(location);
         gameObjects.addGameObject(extraPaddle, Layer.DEFAULT);
         activeExtraPaddles = 1;
@@ -60,11 +62,11 @@ public class ExtraPaddle extends Paddle {
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
-
-        collisionCounter++;
+        if(other.getTag().equals(GameConstants.BALL_TAG)){
+            collisionCounter++;
+        }
         if (collisionCounter >= MAX_COLLISIONS) {
             gameObjects.removeGameObject(this, Layer.DEFAULT);
-            collisionCounter = 0; // TODO: is this needed?
             activeExtraPaddles = 0;
         }
     }

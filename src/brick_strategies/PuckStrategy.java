@@ -24,8 +24,8 @@ public class PuckStrategy extends BasicCollisionStrategy{
     private final float puckSize;
 
 
-    public PuckStrategy(GameObjectCollection gameObjects, ImageReader imageReader, SoundReader soundReader,
-                        Counter brickCounter) {
+    public PuckStrategy(GameObjectCollection gameObjects, Counter brickCounter, ImageReader imageReader,
+                        SoundReader soundReader) {
         super(gameObjects, brickCounter);
         this.puckImage = imageReader.readImage(PUCK_IMAGE, true);
         this.collisionSound = soundReader.readSound(GameConstants.BALL_BLOP_COLLISION_SOUND);
@@ -35,10 +35,10 @@ public class PuckStrategy extends BasicCollisionStrategy{
 
 
 @Override
-    public void onCollision(GameObject firstObject, GameObject secondObject) {
-        super.onCollision(firstObject, secondObject);
+    public void onCollision(GameObject brick, GameObject ball) {
+        super.onCollision(brick, ball);
 
-        Vector2 brickCenter = firstObject.getCenter();
+        Vector2 brickCenter = brick.getCenter();
         Vector2 puckDimensions = new Vector2(this.puckSize, this.puckSize);
         Vector2 topLeftOfPuck = brickCenter.subtract(puckDimensions.mult(0.5f));
 

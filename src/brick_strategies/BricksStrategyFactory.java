@@ -113,10 +113,6 @@ public class BricksStrategyFactory {
         };
     }
 
-    public static void resetStrategies() {
-        ExtraPaddleStrategy.resetCounter();
-        // Reset other strategy-related counters if needed in the future
-    }
 }
 
 

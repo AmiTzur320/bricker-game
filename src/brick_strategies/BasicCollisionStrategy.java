@@ -25,14 +25,14 @@ public class BasicCollisionStrategy implements CollisionStrategy {
     }
 
     /**
-     * Handles the collision event by removing the brick from the game
-     * and decrementing the brick counter.
-     * @param brick The brick game object that was collided with.
-     * @param ball The other game object involved in the collision.
+     * Handles the collision event by removing the firstObject from the game
+     * and decrementing the firstObject counter.
+     * @param firstObject The firstObject game object that was collided with.
+     * @param SecondObject The other game object involved in the collision.
      */
     @Override
-    public void onCollision(GameObject brick, GameObject ball) {
-        if (gameObjects.removeGameObject(brick, Layer.STATIC_OBJECTS)) {
+    public void onCollision(GameObject firstObject, GameObject SecondObject) {
+        if (gameObjects.removeGameObject(firstObject, Layer.STATIC_OBJECTS)) {
             brickCounter.decrement();
         }
     }

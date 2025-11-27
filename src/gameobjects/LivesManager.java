@@ -1,5 +1,4 @@
 package gameobjects;
-import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
@@ -16,36 +15,37 @@ import java.awt.*;
  * It handles the display of remaining lives using heart images and a textual representation.
  * It allows for removing lives when the player loses and updating the GUI accordingly.
  * It also provides functionality to gain lives.
+ *
  * @author Amit Tzur and Zohar Mattatia
  */
 public class LivesManager {
-    // the color settings for 3 lives left
+    /* the color settings for 3 lives left */
     private static final int GREEN_HEART_TEXT_VALUE = 3;
-    // the color settings for 2 lives left. 1 life left will be red by default
+    /* the color settings for 2 lives left */
     private static final int YELLOW_HEART_TEXT_VALUE = 2;
+    /* the maximum number of lives a player can have */
+    private static final int MAX_LIVES = 4;
+    /* the initial number of lives a player starts with */
+    private static final int INITIAL_LIVES = 3;
+    /* the gap between hearts in the GUI */
+    private static final float HEARTS_GAP = GameConstants.STANDARD_PADDING;
 
-    // the gap between hearts in the gui - set to be the same as the brick padding gap
-    private static final float HEARTS_GAP = BrickerGameManager.BRICK_PADDING;
-
-    // initial lives text - the coloring function gets a String input
+    /* the initial text to display for lives */
     private static final String INITIAL_LIVES_TEXT = "3";
 
-    // array to hold the hearts. It's initialized at the size of max lives,
-    // but only the current lives are added to the game
+    /* array to hold the hearts. It's initialized at the size of max lives,
+     but only the current lives are added to the game */
     private final GameObject[] heartsArray;
 
-    // the text renderable instance for the textual representation of remaining lives
+    /* the text renderable instance for the textual representation of remaining lives */
     private final TextRenderable textRenderable;
 
-    // the maximum number of lives allowed - its set by the BrickerGameManager and given to this class
-    private final int maxLives;
-
-    // the current number of lives left counter
+    /* the current number of lives left counter */
     private int livesLeft;
 
-    // the game object collection to which we add/remove the hearts and text gui elements
-    // it's given to us by the BrickerGameManager so we can modify it
-    // and by that keep the code in BrickerGameManager cleaner
+    /* the game object collection to which we add/remove the hearts and text gui elements
+     it's given to us by the BrickerGameManager so we can modify it
+     and by that keep the code in BrickerGameManager cleaner */
     private final GameObjectCollection gameObjects;
 
 
@@ -61,13 +61,12 @@ public class LivesManager {
     public LivesManager(GameObjectCollection gameObjects, Vector2 topLeftCorner, ImageReader imageReader) {
         {
             this.gameObjects = gameObjects;
-            this.maxLives = GameConstants.MAX_LIVES;
-            livesLeft = GameConstants.INITIAL_LIVES;
+            livesLeft = INITIAL_LIVES;
             this.textRenderable = new TextRenderable(INITIAL_LIVES_TEXT);
 
             // setting the initial text gui of remaining lives (so that it's not displayed black)
             updateLivesText();
-            this.heartsArray = new GameObject[maxLives];
+            this.heartsArray = new GameObject[MAX_LIVES];
             // setting the textual gui of remaining lives properties
             GameObject remainingLivesText = new GameObject(
                     topLeftCorner,
@@ -78,10 +77,9 @@ public class LivesManager {
 
             Renderable heartImage = imageReader.readImage(GameConstants.HEART_IMAGE_PATH,true);
 
-
             // creating hearts enough for max lives, but adding only the initial lives to the game
             // from here we set the hearts gui of the remaining lives
-            for (int i = 0; i < maxLives; i++) {
+            for (int i = 0; i < MAX_LIVES; i++) {
                 Vector2 heartPos =
                         topLeftCorner.add(new Vector2((i + 1) * (GameConstants.HEART_WIDTH + HEARTS_GAP), 0));
 
@@ -91,7 +89,7 @@ public class LivesManager {
                         heartImage);
 
                 heartsArray[i] = heart;
-                if (i < GameConstants.INITIAL_LIVES) {
+                if (i < INITIAL_LIVES) {
                     gameObjects.addGameObject(heart, Layer.UI);
                 }
             }
@@ -126,10 +124,7 @@ public class LivesManager {
             // removing a heart from the gui - the last one that was added
             GameObject heartToRemove = heartsArray[livesLeft - 1];
             gameObjects.removeGameObject(heartToRemove, Layer.UI);
-
-
             livesLeft--;
-
             updateLivesText();
         }
     }
@@ -140,9 +135,11 @@ public class LivesManager {
      * Ensures that lives do not exceed the maximum allowed.
      */
     public void gainLife() {
-        if (livesLeft >= maxLives) {
+        if (livesLeft >= MAX_LIVES) {
             return;
         }
+        // accessing the point in the hearts array that corresponds to the current life that was added
+        // It's working due to livesLeft being a 1-based counter that
         GameObject heartToAdd = heartsArray[livesLeft];
         gameObjects.addGameObject(heartToAdd, Layer.UI);
         livesLeft++;

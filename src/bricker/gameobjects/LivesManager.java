@@ -1,4 +1,6 @@
-package gameobjects;
+package bricker.gameobjects;
+
+import bricker.main.GameConstants;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
@@ -6,7 +8,6 @@ import danogl.gui.ImageReader;
 import danogl.gui.rendering.Renderable;
 import danogl.gui.rendering.TextRenderable;
 import danogl.util.Vector2;
-import bricker.main.GameConstants;
 
 import java.awt.*;
 

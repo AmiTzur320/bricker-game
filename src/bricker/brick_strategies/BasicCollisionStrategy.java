@@ -1,4 +1,4 @@
-package brick_strategies;
+package bricker.brick_strategies;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
@@ -28,10 +28,10 @@ public class BasicCollisionStrategy implements CollisionStrategy {
      * Handles the collision event by removing the firstObject from the game
      * and decrementing the firstObject counter.
      * @param firstObject The firstObject game object that was collided with.
-     * @param SecondObject The other game object involved in the collision.
+     * @param secondObject The other game object involved in the collision.
      */
     @Override
-    public void onCollision(GameObject firstObject, GameObject SecondObject) {
+    public void onCollision(GameObject firstObject, GameObject secondObject) {
         if (gameObjects.removeGameObject(firstObject, Layer.STATIC_OBJECTS)) {
             brickCounter.decrement();
         }

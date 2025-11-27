@@ -1,14 +1,14 @@
-package brick_strategies;
+package bricker.brick_strategies;
 
+import bricker.main.GameConstants;
 import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.gui.ImageReader;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import gameobjects.FallingHeart;
-import bricker.main.GameConstants;
-import gameobjects.LivesManager;
+import bricker.gameobjects.FallingHeart;
+import bricker.gameobjects.LivesManager;
 
 /**
  * A collision strategy that spawns a falling heart upon brick collision,
@@ -46,11 +46,11 @@ public class RecoverLifeStrategy extends BasicCollisionStrategy implements Colli
      * Handles the collision event by spawning a falling heart at the brick's location.
      *
      * @param firstObject The brick game object that was collided with.
-     * @param SecondObject  The other game object involved in the collision.
+     * @param secondObject  The other game object involved in the collision.
      */
     @Override
-    public void onCollision(danogl.GameObject firstObject, danogl.GameObject SecondObject) {
-        super.onCollision(firstObject, SecondObject);
+    public void onCollision(danogl.GameObject firstObject, danogl.GameObject secondObject) {
+        super.onCollision(firstObject, secondObject);
 
         Vector2 brickCenter = firstObject.getCenter();
         Vector2 heartDims = GameConstants.HEART_DIMENSIONS;

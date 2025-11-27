@@ -1,5 +1,6 @@
-package brick_strategies;
+package bricker.brick_strategies;
 
+import bricker.main.GameConstants;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
@@ -9,8 +10,8 @@ import danogl.gui.SoundReader;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import gameobjects.Puck;
-import bricker.main.GameConstants;
+import bricker.gameobjects.Puck;
+
 import java.util.Random;
 
 /**
@@ -56,11 +57,11 @@ public class PuckStrategy extends BasicCollisionStrategy implements CollisionStr
      * Handles the collision event by spawning pucks at the brick's location.
      *
      * @param firstObject The brick game object that was collided with.
-     * @param SecondObject  The other game object involved in the collision.
+     * @param secondObject  The other game object involved in the collision.
      */
     @Override
-    public void onCollision(GameObject firstObject, GameObject SecondObject) {
-        super.onCollision(firstObject, SecondObject);
+    public void onCollision(GameObject firstObject, GameObject secondObject) {
+        super.onCollision(firstObject, secondObject);
 
         Vector2 brickCenter = firstObject.getCenter();
         Vector2 puckDimensions = new Vector2(PUCK_SIZE, PUCK_SIZE);

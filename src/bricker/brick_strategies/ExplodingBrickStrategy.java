@@ -1,4 +1,4 @@
-package brick_strategies;
+package bricker.brick_strategies;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
@@ -6,7 +6,7 @@ import danogl.gui.Sound;
 import danogl.gui.SoundReader;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import gameobjects.Brick;
+import bricker.gameobjects.Brick;
 
 /**
  * A collision strategy that causes a brick to explode,
@@ -48,15 +48,15 @@ public class ExplodingBrickStrategy extends BasicCollisionStrategy implements Co
      * affecting its neighboring bricks.
      *
      * @param firstObject The brick game object that was collided with.
-     * @param SecondObject  The other game object involved in the collision.
+     * @param secondObject  The other game object involved in the collision.
      */
     @Override
-    public void onCollision(GameObject firstObject, GameObject SecondObject) {
+    public void onCollision(GameObject firstObject, GameObject secondObject) {
         // handling current brick explosion
-        super.onCollision(firstObject, SecondObject);
+        super.onCollision(firstObject, secondObject);
         explosionSound.play();
 
-        // handling neighboring bricks explosion - THIS IS ACCURDING TO THE ASSIGNMENT DESCRIPTION
+        // handling neighboring bricks explosion - THIS IS ACCORDING TO THE ASSIGNMENT DESCRIPTION
         if (!(firstObject instanceof Brick)) return;
 
         // get the brick's coordinates in the grid

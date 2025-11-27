@@ -1,12 +1,12 @@
-package brick_strategies;
+package bricker.brick_strategies;
 
 import danogl.collisions.GameObjectCollection;
-import danogl.gui.UserInputListener;
-import danogl.util.Counter;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
-import gameobjects.Brick;
-import gameobjects.LivesManager;
+import danogl.gui.UserInputListener;
+import danogl.util.Counter;
+import bricker.gameobjects.Brick;
+import bricker.gameobjects.LivesManager;
 
 import java.util.Random;
 

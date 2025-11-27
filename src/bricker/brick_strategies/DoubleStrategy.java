@@ -1,13 +1,13 @@
-package brick_strategies;
+package bricker.brick_strategies;
 
+import danogl.GameObject;
+import danogl.collisions.GameObjectCollection;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.util.Counter;
-import danogl.collisions.GameObjectCollection;
-import danogl.GameObject;
-import gameobjects.Brick;
-import gameobjects.LivesManager;
+import bricker.gameobjects.Brick;
+import bricker.gameobjects.LivesManager;
 
 import java.util.Random;
 
@@ -107,11 +107,11 @@ public class DoubleStrategy extends BasicCollisionStrategy implements CollisionS
      * Overrides the onCollision method from BasicCollisionStrategy.
      *
      * @param firstObject The brick game object that was collided with.
-     * @param SecondObject  The other game object involved in the collision.
+     * @param secondObject  The other game object involved in the collision.
      */
     @Override
-    public void onCollision(GameObject firstObject, GameObject SecondObject) {
-        super.onCollision(firstObject, SecondObject);
+    public void onCollision(GameObject firstObject, GameObject secondObject) {
+        super.onCollision(firstObject, secondObject);
 
         for (int i = 0; i < strategies.length; i++) {
             // to get a 1-based index for strategy selection
@@ -148,7 +148,7 @@ public class DoubleStrategy extends BasicCollisionStrategy implements CollisionS
         // execute all chosen strategies
         for (CollisionStrategy strategy : strategies) {
             if (strategy != null) { // defensive
-                strategy.onCollision(firstObject, SecondObject);
+                strategy.onCollision(firstObject, secondObject);
             }
 
         }

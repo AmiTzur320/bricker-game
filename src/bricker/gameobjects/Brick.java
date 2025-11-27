@@ -1,6 +1,6 @@
-package gameobjects;
+package bricker.gameobjects;
 
-import brick_strategies.CollisionStrategy;
+import bricker.brick_strategies.CollisionStrategy;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.gui.rendering.Renderable;
@@ -59,6 +59,8 @@ public class Brick extends GameObject {
     /**
      * Gets the brick's coordinate in the bricks grid.
      * Used by the exploding brick strategy to identify neighboring bricks.
+     * A Method for accessing a brick’s position in the grid (row and column)
+     * - as instructed in the assignment.
      * @return The brick's coordinate in the bricks grid.
      */
     public Vector2 getBrickCoordinateInBricksGrid() {

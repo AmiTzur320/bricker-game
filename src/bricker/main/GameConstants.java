@@ -14,7 +14,7 @@ public class GameConstants {
     public static final String BALL_COLLISION_SOUND = "assets/blop.wav";
     /* path to the paddle image asset */
     public static final String PADDLE_IMAGE = "assets/paddle.png";
-    /* path to the ball image asset */
+    /* path to the falling hearts and remaining lives image asset */
     public static final String HEART_IMAGE_PATH = "assets/heart.png";
     /* tag for the main paddle */
     public static final String MAIN_PADDLE_TAG = "MAIN_PADDLE";

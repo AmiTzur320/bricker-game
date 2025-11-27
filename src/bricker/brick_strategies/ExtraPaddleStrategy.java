@@ -1,14 +1,14 @@
-package brick_strategies;
+package bricker.brick_strategies;
 
 import bricker.main.GameConstants;
-import danogl.util.Counter;
-import gameobjects.ExtraPaddle;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.rendering.Renderable;
+import danogl.util.Counter;
 import danogl.util.Vector2;
+import bricker.gameobjects.ExtraPaddle;
 
 /**
  * A collision strategy that adds an extra paddle to the game upon brick collision.
@@ -50,11 +50,11 @@ public class ExtraPaddleStrategy extends BasicCollisionStrategy implements Colli
      * Handles the collision event by adding an extra paddle to the game.
      *
      * @param firstObject The brick game object that was collided with.
-     * @param SecondObject  The other game object involved in the collision.
+     * @param secondObject  The other game object involved in the collision.
      */
     @Override
-    public void onCollision(GameObject firstObject, GameObject SecondObject) {
-        super.onCollision(firstObject, SecondObject);
+    public void onCollision(GameObject firstObject, GameObject secondObject) {
+        super.onCollision(firstObject, secondObject);
         Renderable paddleImage = imageReader.readImage(GameConstants.PADDLE_IMAGE, true);
         // this method creates and adds the extra paddle to the game
         // iff there is less than 1 extra paddle currently

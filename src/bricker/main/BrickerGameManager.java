@@ -1,7 +1,7 @@
 package bricker.main;
 
-import brick_strategies.BricksStrategyFactory;
-import brick_strategies.CollisionStrategy;
+import bricker.brick_strategies.BricksStrategyFactory;
+import bricker.brick_strategies.CollisionStrategy;
 import danogl.GameManager;
 import danogl.GameObject;
 import danogl.collisions.Layer;
@@ -10,7 +10,7 @@ import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import gameobjects.*;
+import bricker.gameobjects.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -56,6 +56,8 @@ public class BrickerGameManager extends GameManager {
     private static final float TOP_WALL_HEIGHT = 5;
     /* brick height - its thickness */
     private static final float BRICK_HEIGHT = 15;
+    /* wall overlap correction to calculate the wall's position */
+    private static final float WALL_OVERLAP_CORRECTION = 1;
     /* default number of brick rows */
     private static final int DEFAULT_BRICK_ROWS = 7;
     /* default number of brick columns */
@@ -71,9 +73,10 @@ public class BrickerGameManager extends GameManager {
             {RIGHT_WALL_WIDTH, RIGHT_WALL_HEIGHT},
             {TOP_WALL_WIDTH, TOP_WALL_HEIGHT}};
     /* wall positions array */
+    /* positions are calculated according to wall dimensions and window dimensions */
     private static final Vector2[] WALL_POSITIONS = {
             Vector2.ZERO,
-            new Vector2(GameConstants.WINDOW_WIDTH - RIGHT_WALL_WIDTH+1, 0),
+            new Vector2(GameConstants.WINDOW_WIDTH - RIGHT_WALL_WIDTH + WALL_OVERLAP_CORRECTION, 0),
             Vector2.ZERO};
 
     // =========================== fields =========================== //
@@ -247,11 +250,11 @@ public class BrickerGameManager extends GameManager {
      * The walls are represented as dark gray rectangles.
      */
     private void createWall(){
-        for (int i=0;i<WALL_POSITIONS.length;i++) {
-            float x= WALL_POSITIONS[i].x();
-            float y= WALL_POSITIONS[i].y();
-            float width= WALLS_DIMENSIONS[i][0];
-            float height= WALLS_DIMENSIONS[i][1];
+        for (int i = 0; i < WALL_POSITIONS.length; i++) {
+            float x = WALL_POSITIONS[i].x();
+            float y = WALL_POSITIONS[i].y();
+            float width = WALLS_DIMENSIONS[i][0];
+            float height = WALLS_DIMENSIONS[i][1];
             GameObject wall = new GameObject(new Vector2(x,y),
                     new Vector2(width, height),
                     new RectangleRenderable(Color.DARK_GRAY));
@@ -306,8 +309,8 @@ public class BrickerGameManager extends GameManager {
                         this.livesManager).getStrategy(STRATEGY_SAMPLE_SPACE);
 
                 // calculating brick position according to its row and column
-                float x = (j * brickWidth)+(GameConstants.STANDARD_PADDING *(j+1)) + LEFT_WALL_WIDTH;
-                float y = (i *BRICK_HEIGHT)+(GameConstants.STANDARD_PADDING *(i+1) + TOP_WALL_HEIGHT);
+                float x = (j * brickWidth) + (GameConstants.STANDARD_PADDING * (j+1)) + LEFT_WALL_WIDTH;
+                float y = (i * BRICK_HEIGHT) + (GameConstants.STANDARD_PADDING * (i+1) + TOP_WALL_HEIGHT);
                 Vector2 brickPosition = new Vector2(x,y);
 
                 Brick brick = new Brick(brickPosition,brickDimensions,brickerImage,collisionStrategy,

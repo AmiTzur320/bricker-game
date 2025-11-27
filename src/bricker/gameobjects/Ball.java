@@ -1,11 +1,11 @@
-package gameobjects;
+package bricker.gameobjects;
 
+import bricker.main.GameConstants;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
-import bricker.main.GameConstants;
 
 /**
  * A class representing a ball in the game.

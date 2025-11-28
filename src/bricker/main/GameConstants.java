@@ -28,30 +28,15 @@ public class GameConstants {
     /* standard padding - space between bricks,
      also used to space the hearts in the remaining lives GUI */
     public static final float STANDARD_PADDING = 10;
-    /* windows width - to avoid calculating it multiple times */
-    public static final float WINDOW_WIDTH = 700;
-    /* windows height - to avoid calculating it multiple times */
-    public static final float WINDOW_HEIGHT = 500;
     /* half factor - used to calculate center positions */
     public static final float HALF_FACTOR = 0.5f;
     /* ball speed - used to set the initial ball velocity */
     public static final float BALL_SPEED = 200;
     /* ball size - width and height */
     public static final float BALL_SIZE = 20;
-    /* paddle width */
-    public static final float PADDLE_WIDTH = 100;
-    /* paddle height - it's thickness */
-    public static final float PADDLE_HEIGHT = 15;
 
-    /* heart dimensions vector - used by RecoverLifeStrategy
-    with parameters that used to be ONLY in LivesManager */
-    public static final Vector2 HEART_DIMENSIONS = new Vector2(HEART_WIDTH, HEART_HEIGHT);
     /* window dimensions vector - to avoid creating it multiple times */
-    public static final Vector2 WINDOW_DIMENSIONS = new Vector2(WINDOW_WIDTH, WINDOW_HEIGHT);
-    /* ball dimensions vector - width and height are equal */
-    public static final Vector2 BALL_DIMENSIONS = new Vector2(BALL_SIZE, BALL_SIZE);
-    /* paddle dimensions vector - width and height */
-    public static final Vector2 PADDLE_DIMENSIONS = new Vector2(PADDLE_WIDTH, PADDLE_HEIGHT);
+    public static final Vector2 DEFAULT_WINDOW_DIMENSIONS = new Vector2(700, 500);
 
 
 }

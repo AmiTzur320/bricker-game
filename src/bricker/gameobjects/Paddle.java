@@ -1,6 +1,5 @@
 package bricker.gameobjects;
 
-import bricker.main.GameConstants;
 import danogl.GameObject;
 import danogl.gui.UserInputListener;
 import danogl.gui.rendering.Renderable;
@@ -19,23 +18,35 @@ public class Paddle extends GameObject {
     //============================ private constants =========================== //
     /* Movement speed of the paddle */
     private static final float MOVEMENT_SPEED = 600;
-
+    /* paddle width */
+    public static final float PADDLE_WIDTH = 100;
+    /* paddle height - it's thickness */
+    public static final float PADDLE_HEIGHT = 15;
+    /* paddle dimensions vector - width and height */
+    public static final Vector2 PADDLE_DIMENSIONS = new Vector2(PADDLE_WIDTH, PADDLE_HEIGHT);
     //============================ fields =========================== //
     /* User input listener for handling user inputs */
     private final UserInputListener inputListener;
+    /* Dimensions of the game window - to restrict paddle movement within the window */
+    private final Vector2 windowDimensions;
 
     /**
      * Constructor for the Paddle class.
      *
-     * @param topLeftCorner The top-left corner position of the paddle.
-     * @param renderable    The visual representation of the paddle.
-     * @param inputListener The user input listener for handling user inputs.
+     * @param topLeftCorner    The top-left corner position of the paddle.
+     * @param renderable       The visual representation of the paddle.
+     * @param inputListener    The user input listener for handling user inputs.
+     * @param windowDimensions The dimensions of the game window -
+     *                         to restrict paddle movement within the window.
      */
     public Paddle(Vector2 topLeftCorner,
                   Renderable renderable,
-                  UserInputListener inputListener) {
-        super(topLeftCorner, GameConstants.PADDLE_DIMENSIONS, renderable);
+                  UserInputListener inputListener,
+                  Vector2 windowDimensions) {
+        super(topLeftCorner, PADDLE_DIMENSIONS, renderable);
         this.inputListener = inputListener;
+        this.windowDimensions = windowDimensions;
+
     }
 
     /**
@@ -66,7 +77,7 @@ public class Paddle extends GameObject {
         boolean didReachLeftEdge = (this.getTopLeftCorner().x() <= 0);
         boolean didReachRightEdge =
                 (this.getTopLeftCorner().x() >=
-                        GameConstants.WINDOW_WIDTH - this.getDimensions().x());
+                        windowDimensions.x() - this.getDimensions().x());
 
         // if we did, and we are still moving in that direction, stop the movement
         if (didReachLeftEdge && movementDir.x() < 0 ||

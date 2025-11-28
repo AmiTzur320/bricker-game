@@ -38,18 +38,18 @@ public class ExtraPaddle extends Paddle {
      * Overloaded to include GameObjectCollection for removal upon reaching max collisions.
      * Works only through the static createExtraPaddle method to ensure single instance.
      *
-     * @param topLeftCorner The top-left corner of the paddle.
-     * @param dimensions    The dimensions of the paddle.
-     * @param renderable    The renderable object for the paddle.
-     * @param inputListener The user input listener.
-     * @param gameObjects   The collection of game objects in the game.
+     * @param topLeftCorner    The top-left corner of the paddle.
+     * @param renderable       The renderable object for the paddle.
+     * @param inputListener    The user input listener.
+     * @param gameObjects      The collection of game objects in the game.
+     * @param windowDimensions The dimensions of the game window.
      */
     private ExtraPaddle(Vector2 topLeftCorner,
-                        Vector2 dimensions,
                         Renderable renderable,
                         UserInputListener inputListener,
-                        GameObjectCollection gameObjects) {
-        super(topLeftCorner, renderable, inputListener);
+                        GameObjectCollection gameObjects,
+                        Vector2 windowDimensions) {
+        super(topLeftCorner, renderable, inputListener, windowDimensions);
         this.gameObjects = gameObjects;
     }
 
@@ -73,12 +73,11 @@ public class ExtraPaddle extends Paddle {
         }
 
         // creating and centering according to instruction
-        Vector2 paddleSize = GameConstants.PADDLE_DIMENSIONS;
         Vector2 location = new Vector2(windowDimensions.x() * GameConstants.HALF_FACTOR,
                 windowDimensions.y() * GameConstants.HALF_FACTOR);
 
-        ExtraPaddle extraPaddle = new ExtraPaddle(location, paddleSize, image,
-                inputListener, gameObjects);
+        ExtraPaddle extraPaddle = new ExtraPaddle(location, image,
+                inputListener, gameObjects, windowDimensions);
         extraPaddle.setTag(TAG);
         extraPaddle.setCenter(location);
         gameObjects.addGameObject(extraPaddle, Layer.DEFAULT);

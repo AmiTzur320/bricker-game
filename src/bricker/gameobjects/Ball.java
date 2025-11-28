@@ -25,11 +25,13 @@ public class Ball extends GameObject {
      * @param topLeftCorner  The top-left corner position of the ball.
      * @param renderable     The visual representation of the ball.
      * @param collisionSound The sound effect to play upon collision.
+     * @param ballDimensions The dimensions of the ball.
      */
     public Ball(Vector2 topLeftCorner,
                 Renderable renderable,
-                Sound collisionSound) {
-        super(topLeftCorner, GameConstants.BALL_DIMENSIONS, renderable);
+                Sound collisionSound,
+                Vector2 ballDimensions) {
+        super(topLeftCorner, ballDimensions, renderable);
         this.collisionSound = collisionSound;
         // Set the ball tag for identification when hitting the extra paddle
         this.setTag(GameConstants.BALL_TAG);

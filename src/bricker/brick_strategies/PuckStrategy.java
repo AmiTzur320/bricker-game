@@ -1,5 +1,6 @@
 package bricker.brick_strategies;
 
+import bricker.gameobjects.Puck;
 import bricker.main.GameConstants;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
@@ -10,7 +11,6 @@ import danogl.gui.SoundReader;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import bricker.gameobjects.Puck;
 
 import java.util.Random;
 
@@ -34,24 +34,29 @@ public class PuckStrategy extends BasicCollisionStrategy implements CollisionStr
     private final Renderable puckImage;
     /* Sound effect for puck collision */
     private final Sound collisionSound;
+    /* Dimensions of the game window - to manage puck behavior */
+    private final Vector2 windowDimensions;
 
 
     /**
      * Constructor for PuckStrategy.
      * Here we initialize the puck image, collision sound, and puck size.
      *
-     * @param gameObjects  The collection of game objects in the game.
-     * @param brickCounter Counter to keep track of remaining bricks.
-     * @param imageReader  ImageReader for loading images.
-     * @param soundReader  SoundReader for loading sounds.
+     * @param gameObjects      The collection of game objects in the game.
+     * @param brickCounter     Counter to keep track of remaining bricks.
+     * @param imageReader      ImageReader for loading images.
+     * @param soundReader      SoundReader for loading sounds.
+     * @param windowDimensions The dimensions of the game window.
      */
     public PuckStrategy(GameObjectCollection gameObjects,
                         Counter brickCounter,
                         ImageReader imageReader,
-                        SoundReader soundReader) {
+                        SoundReader soundReader,
+                        Vector2 windowDimensions) {
         super(gameObjects, brickCounter);
         this.puckImage = imageReader.readImage(PUCK_IMAGE, true);
         this.collisionSound = soundReader.readSound(GameConstants.BALL_COLLISION_SOUND);
+        this.windowDimensions = windowDimensions;
     }
 
     /**
@@ -81,7 +86,9 @@ public class PuckStrategy extends BasicCollisionStrategy implements CollisionStr
      */
     private void addPuck(Vector2 topLeftOfPuck) {
 
-        Puck puck = new Puck(topLeftOfPuck, puckImage, collisionSound, gameObjects);
+
+        Puck puck = new Puck(topLeftOfPuck, puckImage, collisionSound,
+                gameObjects, windowDimensions, new Vector2(PUCK_SIZE, PUCK_SIZE));
         puck.setVelocity(randomVelocityUpper());
         super.gameObjects.addGameObject(puck, Layer.DEFAULT);
     }

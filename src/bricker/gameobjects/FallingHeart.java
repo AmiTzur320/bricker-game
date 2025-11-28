@@ -26,26 +26,32 @@ public class FallingHeart extends GameObject {
     private final GameObjectCollection gameObjects;
     /* Lives manager to handle life recovery */
     private final LivesManager livesManager;
+    /* Dimensions of the game window - to know when the heart has "fallen out" of the screen */
+    private final Vector2 windowDimensions;
 
     /**
      * Constructor for FallingHeart.
      *
-     * @param gameObjects   The collection of game objects in the game.
-     * @param topLeftCorner The top-left corner position of the heart.
-     * @param dimensions    The dimensions of the heart.
-     * @param renderable    The visual representation of the heart.
-     * @param livesManager  The lives manager to handle life recovery.
+     * @param gameObjects      The collection of game objects in the game.
+     * @param topLeftCorner    The top-left corner position of the heart.
+     * @param dimensions       The dimensions of the heart.
+     * @param renderable       The visual representation of the heart.
+     * @param livesManager     The lives manager to handle life recovery.
+     * @param windowDimensions The dimensions of the game window.
+     *
      */
     public FallingHeart(GameObjectCollection gameObjects,
                         Vector2 topLeftCorner,
                         Vector2 dimensions,
                         Renderable renderable,
-                        LivesManager livesManager) {
+                        LivesManager livesManager,
+                        Vector2 windowDimensions) {
         super(topLeftCorner, dimensions, renderable);
 
         this.gameObjects = gameObjects;
         this.livesManager = livesManager;
         this.setVelocity(Vector2.DOWN.mult(HEART_SPEED));
+        this.windowDimensions = windowDimensions;
     }
 
     /**
@@ -79,7 +85,7 @@ public class FallingHeart extends GameObject {
     public void update(float deltaTime) {
         super.update(deltaTime);
         // If the heart falls below the screen, remove it from the game
-        if (this.getTopLeftCorner().y() > GameConstants.WINDOW_DIMENSIONS.y()) {
+        if (this.getTopLeftCorner().y() > windowDimensions.y()) {
             gameObjects.removeGameObject(this);
         }
     }

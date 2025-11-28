@@ -113,7 +113,7 @@ initializes the first Double Strategy with a counter of 1.
 Factory Coordination: When the DoubleStrategy populates its array of sub-strategies, it requests new
 strategies from the BricksStrategyFactory.
 
-Stopping Condition: Before requesting a new strategy, I check if doubleStrategyCounter has reached the
+Stopping Condition: Before requesting a new strategy, we check if doubleStrategyCounter has reached the
 maximum allowed depth (MAX_DOUBLE_STRATEGIES).
 
 If the limit is reached, we request a strategy from the factory using a specific flag
@@ -124,7 +124,7 @@ If the limit is not reached, we pass the incremented counter (doubleStrategyCoun
 DoubleStrategy created, ensuring the recursion eventually terminates
 
 3.5.4.5 -
-In Part 2, I extended the original API to support new behaviors while adhering to the OOP principles we
+In Part 2, we extended the original API to support new behaviors while adhering to the OOP principles we
 learned. The following public classes were added:
 
 bricker.gameobjects.Puck: Added to represent the extra balls. It extends Ball but overrides the update method
@@ -151,4 +151,9 @@ Prinsipal.
 brick_strategies.DoubleStrategy: Added to implement the Composite Pattern for double behaviors. It is
 necessary to hold and manage multiple strategies simultaneously and handle the recursion limit logic (max 3
 behaviors), which could not be cleanly handled within the Factory alone.
+
+bricker.main.GameConstants: Added to centralize constant values used across multiple packages (asset paths,
+object tags, dimensions). This prevents "Magic Numbers" and "Magic Strings" from being scattered throughout
+the code. It also reduces coupling between classes by providing a single source of truth for shared
+configuration values, making the code easier to maintain and refactor.
 

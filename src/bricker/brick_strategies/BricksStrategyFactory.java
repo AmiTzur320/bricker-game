@@ -1,12 +1,13 @@
 package bricker.brick_strategies;
 
+import bricker.gameobjects.Brick;
+import bricker.gameobjects.LivesManager;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.util.Counter;
-import bricker.gameobjects.Brick;
-import bricker.gameobjects.LivesManager;
+import danogl.util.Vector2;
 
 import java.util.Random;
 
@@ -50,16 +51,21 @@ public class BricksStrategyFactory {
     private final LivesManager livesManager;
     /* random number generator for strategy selection */
     private static final Random RANDOM = new Random();
+    /* window dimensions for paddle placement */
+    private final Vector2 windowDimensions;
 
     /**
      * Constructor for BricksStrategyFactory.
      *
-     * @param gameObjects   The collection of game objects in the game.
-     * @param brickCounter  Counter to keep track of remaining bricks.
-     * @param imageReader   ImageReader for loading images.
-     * @param soundReader   SoundReader for loading sounds.
-     * @param inputListener UserInputListener for handling user inputs.
-     * @param bricksGrid    2D array representing the grid of bricks.
+     * @param gameObjects      The collection of game objects in the game.
+     * @param brickCounter     Counter to keep track of remaining bricks.
+     * @param imageReader      ImageReader for loading images.
+     * @param soundReader      SoundReader for loading sounds.
+     * @param inputListener    UserInputListener for handling user inputs.
+     * @param bricksGrid       2D array representing the grid of bricks.
+     * @param livesManager     LivesManager to manage player's lives.
+     * @param windowDimensions Dimensions of the game window.
+     *
      */
     public BricksStrategyFactory(GameObjectCollection gameObjects,
                                  Counter brickCounter,
@@ -67,7 +73,8 @@ public class BricksStrategyFactory {
                                  SoundReader soundReader,
                                  UserInputListener inputListener,
                                  Brick[][] bricksGrid,
-                                 LivesManager livesManager) {
+                                 LivesManager livesManager,
+                                 Vector2 windowDimensions) {
 
         this.gameObjects = gameObjects;
         this.brickCounter = brickCounter;
@@ -76,6 +83,7 @@ public class BricksStrategyFactory {
         this.inputListener = inputListener;
         this.bricksGrid = bricksGrid;
         this.livesManager = livesManager;
+        this.windowDimensions = windowDimensions;
     }
 
     /**
@@ -96,20 +104,25 @@ public class BricksStrategyFactory {
 
         return switch (chosenStrategy) {
             case PUCKS_STRATEGY_INDEX -> // 1. Puck
-                    new PuckStrategy(gameObjects, brickCounter, imageReader, soundReader);
+                    new PuckStrategy(gameObjects, brickCounter, imageReader, soundReader, windowDimensions);
 
             case EXTRA_PADDLE_STRATEGY_INDEX -> // 2. Extra Paddle
-                    new ExtraPaddleStrategy(gameObjects, brickCounter, imageReader, inputListener);
+                    new ExtraPaddleStrategy(gameObjects, brickCounter, imageReader, inputListener,
+                            windowDimensions);
 
             case EXPLODE_STRATEGY_INDEX -> // 3. Exploding
                     new ExplodingBrickStrategy(gameObjects, brickCounter, bricksGrid, soundReader);
 
             case LIVES_STRATEGY_INDEX -> // 4. Extra Life
-                    new RecoverLifeStrategy(gameObjects, brickCounter, imageReader, livesManager);
+                    new RecoverLifeStrategy(gameObjects, brickCounter,
+                            imageReader, livesManager, windowDimensions);
 
             case DOUBLE_STRATEGY_INDEX -> // 5. Double Strategy
-                    new DoubleStrategy(gameObjects, brickCounter, imageReader, soundReader,
-                            inputListener, bricksGrid, livesManager, SET_DOUBLE_STRATEGY_COUNTER);
+                    new DoubleStrategy(gameObjects, brickCounter,
+                            imageReader, soundReader,
+                            inputListener, bricksGrid,
+                            livesManager, SET_DOUBLE_STRATEGY_COUNTER,
+                            windowDimensions);
 
             default -> new BasicCollisionStrategy(gameObjects, brickCounter); // 6-10. Basic strategy
         };

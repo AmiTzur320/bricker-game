@@ -1,5 +1,6 @@
 package bricker.brick_strategies;
 
+import bricker.gameobjects.ExtraPaddle;
 import bricker.main.GameConstants;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
@@ -8,11 +9,13 @@ import danogl.gui.UserInputListener;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import bricker.gameobjects.ExtraPaddle;
 
 /**
  * A collision strategy that adds an extra paddle to the game upon brick collision.
+ * The extra paddle allows the player to have an additional paddle controlled by the same input.
+ * There can be only one extra paddle at a time.
  * Extends the BasicCollisionStrategy.
+ * Implements CollisionStrategy interface.
  *
  * @author Zohar Mattatia and Amit Tzur
  */
@@ -30,21 +33,24 @@ public class ExtraPaddleStrategy extends BasicCollisionStrategy implements Colli
     /**
      * Constructor for ExtraPaddleStrategy.
      *
-     * @param gameObjects   The collection of game objects in the game.
-     * @param brickCounter  Counter to keep track of remaining bricks.
-     * @param imageReader   ImageReader for loading images.
-     * @param inputListener UserInputListener for handling user inputs.
+     * @param gameObjects      The collection of game objects in the game.
+     * @param brickCounter     Counter to keep track of remaining bricks.
+     * @param imageReader      ImageReader for loading images.
+     * @param inputListener    UserInputListener for handling user inputs.
+     * @param windowDimensions The dimensions of the game window.
+     *
      */
     public ExtraPaddleStrategy(GameObjectCollection gameObjects,
                                Counter brickCounter,
                                ImageReader imageReader,
-                               UserInputListener inputListener) {
+                               UserInputListener inputListener,
+                               Vector2 windowDimensions) {
 
         super(gameObjects, brickCounter);
         this.gameObjects = gameObjects;
         this.imageReader = imageReader;
         this.inputListener = inputListener;
-        this.windowDimensions = GameConstants.WINDOW_DIMENSIONS;
+        this.windowDimensions = windowDimensions;
     }
 
     /**
